@@ -27,3 +27,5 @@ prisma/dev.db-journal
 # OS files
 .DS_Store
 Thumbs.db
+
+/src/generated/prisma

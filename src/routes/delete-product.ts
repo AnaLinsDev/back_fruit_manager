@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
+import { prisma } from "../lib/prisma";
 
 export async function deleteProduct(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
@@ -14,7 +15,14 @@ export async function deleteProduct(app: FastifyInstance) {
     },
     async (request) => {
       const { prod_id } = request.params;
-      return `DELETE PRODUCTS: ${prod_id}`;
+
+      await prisma.product.delete({
+        where: {
+          id: prod_id,
+        },
+      });
+
+      return { message: "Product deleted." };
     }
   );
 }
