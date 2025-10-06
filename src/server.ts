@@ -8,6 +8,11 @@ import { getProducts } from "./routes/get-products";
 import { createProduct } from "./routes/create-product";
 import { updateProduct } from "./routes/update-product";
 import { deleteProduct } from "./routes/delete-product";
+import { getPurchases } from "./routes/get-purchases";
+import { createPurchase } from "./routes/create-purchase";
+import { updatePurchase } from "./routes/update-purchase";
+import { deletePurchase } from "./routes/delete-purchase";
+import { getPurchaseDetail } from "./routes/get-purchase-detail";
 
 const app = fastify();
 
@@ -26,6 +31,13 @@ app.register(getProducts);
 app.register(createProduct);
 app.register(updateProduct);
 app.register(deleteProduct);
+
+//Purchase
+app.register(getPurchases);
+app.register(createPurchase);
+app.register(updatePurchase);
+app.register(deletePurchase);
+app.register(getPurchaseDetail);
 
 app.listen({ port: 3000 }).then(() => {
   console.log("SERVER RUNNING");

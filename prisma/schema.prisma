@@ -8,9 +8,23 @@ datasource db {
 }
 
 model Product {
-  id          String        @id @default(uuid())
-  acronym     String
-  description String
+  id             String           @id @default(uuid())
+  acronym        String
+  description    String
+  PurchaseRecord PurchaseRecord[]
 
   @@map("products")
+}
+
+model PurchaseRecord {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now()) // Purchase or sale date
+  type      String // "Purchase" or "Sale"
+  quantity  Int
+  price     Float
+  number    Int
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@map("purchases")
 }

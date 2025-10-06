@@ -14,7 +14,7 @@ export async function createProduct(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { acronym, description } = request.body;
 
       const product = await prisma.product.create({
@@ -23,6 +23,10 @@ export async function createProduct(app: FastifyInstance) {
           description: description,
         },
       });
+
+      if (!product) {
+        return reply.status(404).send({ message: "Product not found." });
+      }
 
       return { productId: product.id };
     }

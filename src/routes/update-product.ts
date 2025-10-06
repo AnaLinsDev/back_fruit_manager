@@ -5,11 +5,11 @@ import { prisma } from "../lib/prisma";
 
 export async function updateProduct(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().put(
-    "/products/:prod_id",
+    "/products/:prodId",
     {
       schema: {
         params: z.object({
-          prod_id: z.uuid(),
+          prodId: z.uuid(),
         }),
 
         body: z.object({
@@ -18,19 +18,23 @@ export async function updateProduct(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
-      const { prod_id } = request.params;
+    async (request, reply) => {
+      const { prodId } = request.params;
       const { acronym, description } = request.body;
 
       const product = await prisma.product.update({
         where: {
-          id: prod_id,
+          id: prodId,
         },
         data: {
           acronym: acronym,
           description: description,
         },
       });
+
+      if (!product) {
+        return reply.status(404).send({ message: "Product not found." });
+      }
 
       return { productId: product.id };
     }

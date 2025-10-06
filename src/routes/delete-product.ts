@@ -5,22 +5,26 @@ import { prisma } from "../lib/prisma";
 
 export async function deleteProduct(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    "/products/:prod_id",
+    "/products/:prodId",
     {
       schema: {
         params: z.object({
-          prod_id: z.uuid(),
+          prodId: z.uuid(),
         }),
       },
     },
-    async (request) => {
-      const { prod_id } = request.params;
+    async (request, reply) => {
+      const { prodId } = request.params;
 
-      await prisma.product.delete({
+      const product = await prisma.product.delete({
         where: {
-          id: prod_id,
+          id: prodId,
         },
       });
+
+      if (!product) {
+        return reply.status(404).send({ message: "Product not found." });
+      }
 
       return { message: "Product deleted." };
     }
