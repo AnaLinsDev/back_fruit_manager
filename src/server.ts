@@ -4,10 +4,10 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
-import { getProducts } from "../routes/get-products";
-import { createProduct } from "../routes/create-product";
-import { updateProduct } from "../routes/update-product";
-import { deleteProduct } from "../routes/delete-product";
+import { getProducts } from "./routes/get-products";
+import { createProduct } from "./routes/create-product";
+import { updateProduct } from "./routes/update-product";
+import { deleteProduct } from "./routes/delete-product";
 
 const app = fastify();
 
